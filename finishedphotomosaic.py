@@ -24,8 +24,8 @@ def resize_image(img, scale_w, scale_h):
 #---------crop and resize the image to a height of 250 pixels-----------
 def cropping(image):
     image = cv2.imread(image)
-    cv2.imshow("Image", image)
-    cv2.waitKey(0)
+    #cv2.imshow("Image", image)
+    #cv2.waitKey(0)
 
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     thresh = cv2.threshold(gray, 100, 300, cv2.THRESH_BINARY_INV)[1]
@@ -99,32 +99,19 @@ def photomosaic():
     bottomRightBlank = resize_image(blank, bottomRightWidthRatio, bottomRightHeightRatio)
 
     #----------------------concat middle tile------------------------
-    print(cv2.imread(snapshots[3]).shape[0])
-    print(cv2.imread(snapshots[0]).shape[0])
     middleTileLeft = cv2.hconcat([cv2.imread(snapshots[3]), cv2.imread(snapshots[0])])
-    cv2.imshow("Middle Tile Left", middleTileLeft)
-    cv2.waitKey(0)
     middleTile = cv2.hconcat([middleTileLeft, cv2.imread(snapshots[4])])
     cv2.imwrite("C:\\Users\\alexa\\Desktop\\photomosaic\\middleTile.png", middleTile)
-    cv2.imshow("MiddleTile", middleTile)
-    cv2.waitKey(0)
-    print(middleTile.shape[1])
 
     #----------concat top tile-----------------
     topTileLeft = cv2.hconcat([topLeftBlank, cv2.imread(snapshots[1])])
     topTile = cv2.hconcat([topTileLeft, topRightBlank])
     cv2.imwrite("C:\\Users\\alexa\\Desktop\\photomosaic\\topTile.png", topTile)
-    cv2.imshow("Top Tile", topTile)
-    cv2.waitKey(0)
-    print(topTile.shape[1])
 
     #-------------concat bottom tile--------------
     bottomTileLeft = cv2.hconcat([bottomLeftBlank, cv2.imread(snapshots[4])])
     bottomTile = cv2.hconcat([bottomTileLeft, bottomRightBlank])
     cv2.imwrite("C:\\Users\\alexa\\Desktop\\photomosaic\\bottomTile.png", bottomTile)
-    cv2.imshow("Bottom Tile", bottomTile)
-    cv2.waitKey(0)
-    print(bottomTile.shape[1])
 
     #---------stitch together all the tiles-----------
     topSection = cv2.vconcat([topTile, middleTile])
@@ -132,4 +119,5 @@ def photomosaic():
     cv2.imwrite("C:\\Users\\alexa\\Desktop\\photomosaic\\photomosaic.png", photomosaic)
     cv2.imshow("PHOTOMOSAIC", photomosaic)
     cv2.waitKey(0)
+    
 photomosaic()
